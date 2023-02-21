@@ -1,6 +1,16 @@
 <script lang="ts">
 export default {
   name: "Nav",
+  props: {
+    savedJobs: Number,
+  },
+  // updated() {
+  //   if (localStorage.getItem("savedJobs")) {
+  //     (this.savedJobs as Number) = JSON.parse(
+  //       localStorage.getItem("savedJobs") || "[]"
+  //     ).length;
+  //   }
+  // },
 };
 </script>
 
@@ -9,10 +19,12 @@ export default {
     <div class="logo">Remote Web3 Jobs</div>
     <div class="nav-menu">
       <ul>
-        <li>Jobs</li>
         <li>Companies</li>
+        <li>Newsletter</li>
         <li>Learn</li>
-        <li>Sign In</li>
+        <li>
+          Saved Jobs<span>{{ savedJobs ? `(${savedJobs})` : "" }}</span>
+        </li>
       </ul>
       <button class="btn">Post a Job</button>
     </div>
@@ -47,14 +59,16 @@ export default {
   line-height: 1.5;
   display: flex;
   align-items: center;
+  justify-content: flex-end;
+  width: 50%;
 }
 
 .nav-menu ul {
   list-style: none;
+  width: 70%;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 20rem;
 }
 
 .nav-menu ul li {

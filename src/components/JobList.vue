@@ -1,6 +1,24 @@
 <script lang="ts">
+type Job = {
+  id: number;
+  title: string;
+  company: string;
+  location: string;
+  salary: string;
+  type: string;
+  tags: string[];
+  description: string;
+  datePosted: string;
+};
+
 export default {
   name: "JobList",
+  props: {
+    jobSelected: {
+      type: Number,
+      required: false,
+    },
+  },
   data() {
     return {
       jobsList: [
@@ -115,12 +133,24 @@ export default {
       ],
     };
   },
+  methods: {
+    handleJobClick(item: Job) {
+      this.$emit("clicked", item);
+      // (this.jobSelected as Number) = item.id;
+    },
+  },
 };
 </script>
 
 <template>
   <div class="list-wrapper">
-    <div class="job-listing" v-for="item of jobsList">
+    <div
+      v-for="item of jobsList"
+      :class="[
+        jobSelected && item.id === jobSelected ? 'job-selected' : 'job-listing',
+      ]"
+      @click="($event) => handleJobClick(item)"
+    >
       <div class="job-listing-header">
         <h3>{{ item.title }}</h3>
         <p>{{ item.datePosted }}</p>
@@ -142,6 +172,15 @@ export default {
 .list-wrapper {
   width: 48%;
   margin-top: 2rem;
+  margin-bottom: 2rem;
+  max-height: 100vh;
+  overflow-y: scroll;
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none; /* Firefox */
+}
+
+.list-wrapper::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
 }
 .job-listing-header {
   display: flex;
@@ -179,6 +218,15 @@ export default {
   margin-bottom: 1rem;
   padding: 0.5rem 1rem;
   cursor: pointer;
+}
+
+.job-selected {
+  border: 1px solid #2d6e7e;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: #153b44;
+  color: #fff;
 }
 
 .job-listing:hover {
