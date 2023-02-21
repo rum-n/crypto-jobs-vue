@@ -1,5 +1,7 @@
-<script setup lang="ts">
-import { ref } from "vue";
+<script lang="ts">
+export default {
+  name: "Nav",
+};
 </script>
 
 <template>
