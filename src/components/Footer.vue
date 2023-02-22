@@ -8,7 +8,7 @@ export default {
   <footer>
     <div class="footer-wrapper">
       <div class="footer-left">
-        <div class="footer-logo">Remote Web3 Jobs</div>
+        <div class="footer-logo">Web3 Gigs</div>
       </div>
       <div class="footer-right">
         <p>Created by Rumen Manev</p>

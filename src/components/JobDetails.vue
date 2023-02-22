@@ -11,11 +11,12 @@ export default {
       required: false,
     },
   },
-  // created() {
-  //   (this.savedJobs as []) = JSON.parse(
-  //     localStorage.getItem("savedJobs") || "[]"
-  //   );
-  // },
+  updated() {
+    // (this.savedJobs as []) = JSON.parse(
+    //   localStorage.getItem("savedJobs") || "[]"
+    // );
+    console.log(this.details);
+  },
   methods: {
     handleSaveJob() {
       if (this.savedJobs) this.savedJobs.push(this.details);
@@ -46,7 +47,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
 .details-wrapper {
   background-color: #153b44;
   width: 48%;
@@ -82,6 +83,7 @@ p {
   border: none;
   margin-right: 1rem;
   cursor: pointer;
+  transition: 0.3s;
 }
 
 .save-btn {
@@ -93,6 +95,13 @@ p {
   border-radius: 0.5rem;
   border: 1px solid #2d6e7e;
   cursor: pointer;
+  transition: 0.3s;
+}
+
+.apply-btn:hover,
+.save-btn:hover {
+  box-shadow: 2px 2px 1px 1px #2d6e7e;
+  transition: 0.3s;
 }
 
 .buttons {
@@ -101,5 +110,11 @@ p {
   justify-content: flex-end;
   align-items: center;
   margin-top: 4rem;
+}
+
+@media screen and (max-width: 768px) {
+  .details-wrapper {
+    display: none;
+  }
 }
 </style>

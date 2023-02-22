@@ -1,4 +1,6 @@
 <script lang="ts">
+import JobDetails from "./JobDetails.vue";
+
 type Job = {
   id: number;
   title: string;
@@ -13,14 +15,13 @@ type Job = {
 
 export default {
   name: "JobList",
-  props: {
-    jobSelected: {
-      type: Number,
-      required: false,
-    },
+  components: {
+    JobDetails,
   },
   data() {
     return {
+      jobIdSelected: 0,
+      jobSelected: {},
       jobsList: [
         {
           id: 1,
@@ -135,36 +136,50 @@ export default {
   },
   methods: {
     handleJobClick(item: Job) {
-      this.$emit("clicked", item);
-      // (this.jobSelected as Number) = item.id;
+      // this.$emit("clicked", item);
+      this.jobIdSelected = item.id;
+      this.jobSelected = item;
     },
   },
 };
 </script>
 
 <template>
-  <div class="list-wrapper">
-    <div
-      v-for="item of jobsList"
-      :class="[
-        jobSelected && item.id === jobSelected ? 'job-selected' : 'job-listing',
-      ]"
-      @click="($event) => handleJobClick(item)"
-    >
-      <div class="job-listing-header">
-        <h3>{{ item.title }}</h3>
-        <p>{{ item.datePosted }}</p>
-      </div>
-      <p>{{ item.company }}</p>
-      <div class="job-details">
-        <p>Location: {{ item.location }}</p>
-        <p>Type: {{ item.type }}</p>
-        <p>Salary: {{ item.salary }}</p>
-      </div>
-      <div class="tags">
-        <span class="tag" v-for="tag of item.tags">{{ tag }}</span>
+  <div class="content">
+    <div class="list-wrapper">
+      <div
+        v-for="item of jobsList"
+        :class="
+          jobIdSelected && item.id === jobIdSelected
+            ? 'job-selected'
+            : 'job-listing'
+        "
+        @click="($event) => handleJobClick(item)"
+      >
+        <div class="job-listing-header">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.datePosted }}</p>
+        </div>
+        <p>{{ item.company }}</p>
+        <div class="job-details">
+          <p>Location: {{ item.location }}</p>
+          <p>Type: {{ item.type }}</p>
+          <p>Salary: {{ item.salary }}</p>
+        </div>
+        <div class="tags">
+          <span class="tag" v-for="tag of item.tags">{{ tag }}</span>
+        </div>
+        <!-- Mobile job description -->
+        <div v-if="jobIdSelected === item.id" class="mobile-job-details">
+          <p>{{ item.description }}</p>
+          <div class="buttons">
+            <button class="apply-btn">Apply</button>
+            <button class="save-btn">Save for later</button>
+          </div>
+        </div>
       </div>
     </div>
+    <JobDetails v-if="jobIdSelected" :details="jobSelected" />
   </div>
 </template>
 
@@ -189,7 +204,8 @@ export default {
   align-items: center;
 }
 
-.job-listing p {
+.job-listing p,
+.job-selected p {
   margin: 0;
   padding: 0;
 }
@@ -234,7 +250,8 @@ export default {
   color: #fff;
 }
 
-.job-listing h3 {
+.job-listing h3,
+.job-selected h3 {
   margin: 0;
   padding: 0;
 }
@@ -245,5 +262,26 @@ export default {
   justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
+}
+.content {
+  display: flex;
+  margin: auto;
+  width: 90%;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.mobile-job-details {
+  display: none;
+}
+@media screen and (max-width: 768px) {
+  .mobile-job-details {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+  .list-wrapper {
+    width: auto;
+  }
 }
 </style>

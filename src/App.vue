@@ -7,10 +7,7 @@ import Footer from "./components/Footer.vue";
 
 export default {
   data() {
-    return {
-      jobSelected: {},
-      listingClicked: false,
-    };
+    return {};
   },
   components: {
     Nav,
@@ -19,31 +16,15 @@ export default {
     JobDetails,
     Footer,
   },
-  methods: {
-    onJobSelected(job: any) {
-      this.jobSelected = job;
-      this.listingClicked = true;
-    },
-  },
+  methods: {},
 };
 </script>
 
 <template>
   <Nav />
   <Header />
-  <div class="content">
-    <JobList @clicked="onJobSelected" />
-    <JobDetails v-if="listingClicked" :details="jobSelected" />
-  </div>
+  <JobList />
   <Footer />
 </template>
 
-<style scoped>
-.content {
-  display: flex;
-  margin: auto;
-  width: 90%;
-  justify-content: space-between;
-  align-items: flex-start;
-}
-</style>
+<style scoped></style>

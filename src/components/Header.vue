@@ -138,4 +138,10 @@ export default {
   }
 }
 /*  Cursor blinking CSS Ends... */
+
+@media screen and (max-width: 768px) {
+  .hero-title {
+    font-size: 1.5rem;
+  }
+}
 </style>
