@@ -1,144 +1,37 @@
 <script lang="ts">
 import JobDetails from "./JobDetails.vue";
-
-type Job = {
-  id: number;
-  title: string;
-  company: string;
-  location: string;
-  salary: string;
-  type: string;
-  tags: string[];
-  description: string;
-  datePosted: string;
-};
+import { Job } from "../types/Job";
 
 export default {
   name: "JobList",
   components: {
     JobDetails,
   },
+  props: {
+    jobsList: {
+      type: Array,
+      required: true,
+    },
+  },
   data() {
     return {
       jobIdSelected: 0,
       jobSelected: {},
-      jobsList: [
-        {
-          id: 1,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "1d ago",
-        },
-        {
-          id: 2,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "5d ago",
-        },
-        {
-          id: 3,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "1w ago",
-        },
-        {
-          id: 4,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "5w ago",
-        },
-        {
-          id: 5,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "10d ago",
-        },
-        {
-          id: 6,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "15d ago",
-        },
-        {
-          id: 7,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "45d ago",
-        },
-        {
-          id: 8,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "3d ago",
-        },
-        {
-          id: 9,
-          title: "Senior Frontend Developer",
-          company: "Company Name",
-          location: "Remote",
-          salary: "$100,000",
-          type: "Full Time",
-          tags: ["Frontend", "React", "Vue", "Angular"],
-          description:
-            "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem. Sed euismod, nunc ut aliquam aliquam, nunc nunc aliquet elit, vitae aliquam nunc nisl sit amet lorem.",
-          datePosted: "2d ago",
-        },
-      ],
+      savedJobs: [],
     };
+  },
+  created() {
+    this.savedJobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
   },
   methods: {
     handleJobClick(item: Job) {
       // this.$emit("clicked", item);
       this.jobIdSelected = item.id;
       this.jobSelected = item;
+    },
+    handleSaveJob(item: Job) {
+      this.savedJobs.push(item as never);
+      localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
     },
   },
 };
@@ -148,7 +41,7 @@ export default {
   <div class="content">
     <div class="list-wrapper">
       <div
-        v-for="item of jobsList"
+        v-for="item of jobsList as Job[]"
         :class="
           jobIdSelected && item.id === jobIdSelected
             ? 'job-selected'
@@ -174,7 +67,9 @@ export default {
           <p>{{ item.description }}</p>
           <div class="buttons">
             <button class="apply-btn">Apply</button>
-            <button class="save-btn">Save for later</button>
+            <button class="save-btn" @click="($event) => handleSaveJob(item)">
+              Save for later
+            </button>
           </div>
         </div>
       </div>
@@ -183,7 +78,7 @@ export default {
   </div>
 </template>
 
-<style scoped>
+<style>
 .list-wrapper {
   width: 48%;
   margin-top: 2rem;

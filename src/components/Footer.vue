@@ -11,7 +11,10 @@ export default {
         <div class="footer-logo">Web3 Gigs</div>
       </div>
       <div class="footer-right">
-        <p>Created by Rumen Manev</p>
+        <p>
+          Created by
+          <a href="https://rmanev.com" target="”_blank”">Rumen Manev</a>
+        </p>
       </div>
     </div>
   </footer>
@@ -20,7 +23,6 @@ export default {
 <style scoped>
 .footer-wrapper {
   height: 4rem;
-  width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -48,8 +50,7 @@ export default {
 }
 
 .footer-right {
-  font-size: 1rem;
-  font-weight: 700;
+  font-size: 0.8rem;
   color: #2d6e7e;
   text-align: center;
   margin: 0;
@@ -57,5 +58,15 @@ export default {
   line-height: 1.5;
   display: flex;
   align-items: center;
+}
+
+.footer-right a {
+  font-weight: 700;
+}
+
+@media screen and (max-width: 768px) {
+  .footer-wrapper {
+    flex-direction: column;
+  }
 }
 </style>

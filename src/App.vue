@@ -1,30 +1,19 @@
-<script lang="ts">
+<script setup>
+import { RouterView } from "vue-router";
 import Nav from "./components/Nav.vue";
-import Header from "./components/Header.vue";
-import JobList from "./components/JobList.vue";
-import JobDetails from "./components/JobDetails.vue";
 import Footer from "./components/Footer.vue";
-
-export default {
-  data() {
-    return {};
-  },
-  components: {
-    Nav,
-    Header,
-    JobList,
-    JobDetails,
-    Footer,
-  },
-  methods: {},
-};
 </script>
 
 <template>
   <Nav />
-  <Header />
-  <JobList />
+  <main>
+    <RouterView />
+  </main>
   <Footer />
 </template>
 
-<style scoped></style>
+<style scoped>
+main {
+  min-height: 80vh;
+}
+</style>

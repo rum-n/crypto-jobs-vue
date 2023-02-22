@@ -1,4 +1,6 @@
 <script lang="ts">
+import { Job } from "../types/Job";
+
 export default {
   name: "JobDetails",
   props: {
@@ -6,21 +8,19 @@ export default {
       type: Object,
       required: true,
     },
-    savedJobs: {
-      type: Array,
-      required: false,
-    },
   },
-  updated() {
-    // (this.savedJobs as []) = JSON.parse(
-    //   localStorage.getItem("savedJobs") || "[]"
-    // );
-    console.log(this.details);
+  data() {
+    return {
+      savedJobs: [],
+    };
+  },
+  created() {
+    this.savedJobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
   },
   methods: {
     handleSaveJob() {
-      if (this.savedJobs) this.savedJobs.push(this.details);
-      localStorage.setItem("savedJobs", JSON.stringify(this.details));
+      this.savedJobs.push(this.details as never);
+      localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
     },
   },
 };
@@ -42,7 +42,16 @@ export default {
     <p>{{ details.description }}</p>
     <div class="buttons">
       <button class="apply-btn">Apply</button>
-      <button class="save-btn" @click="handleSaveJob">Save for later</button>
+      <button
+        :class="savedJobs.find((item: Job)=>item.id === details.id) ? 'already-saved' : 'save-btn'"
+        @click="handleSaveJob"
+      >
+        {{
+          savedJobs.find((item: Job) => item.id === details.id)
+            ? "Saved"
+            : "Save for later"
+        }}
+      </button>
     </div>
   </div>
 </template>
@@ -86,7 +95,8 @@ p {
   transition: 0.3s;
 }
 
-.save-btn {
+.save-btn,
+.already-saved {
   background-color: transparent;
   color: #c6de41;
   font-size: 1rem;
@@ -96,6 +106,12 @@ p {
   border: 1px solid #2d6e7e;
   cursor: pointer;
   transition: 0.3s;
+}
+
+.already-saved {
+  background-color: #5d5d5d;
+  color: #153b44;
+  cursor: default;
 }
 
 .apply-btn:hover,

@@ -1,12 +1,12 @@
 <script lang="ts">
+import { RouterLink } from "vue-router";
+
 export default {
   name: "Nav",
-  props: {
-    savedJobs: Number,
-  },
   data() {
     return {
       showMobileMenu: false,
+      savedJobs: JSON.parse(localStorage.getItem("savedJobs") || "[]").length,
     };
   },
   methods: {
@@ -14,20 +14,17 @@ export default {
       this.showMobileMenu = !this.showMobileMenu;
     },
   },
-
-  // updated() {
-  //   if (localStorage.getItem("savedJobs")) {
-  //     (this.savedJobs as Number) = JSON.parse(
-  //       localStorage.getItem("savedJobs") || "[]"
-  //     ).length;
-  //   }
-  // },
+  watch: {
+    savedJobs(oldNumber, newNumber) {
+      this.savedJobs = newNumber;
+    },
+  },
 };
 </script>
 
 <template>
   <div class="nav-wrapper">
-    <div class="logo">Web3 Gigs</div>
+    <div class="logo"><RouterLink to="/">Web3 Gigs</RouterLink></div>
     <svg
       class="hamburger"
       @click="showMenu()"
@@ -46,11 +43,19 @@ export default {
         :class="showMobileMenu ? 'open-menu' : 'closed-menu'"
       >
         <ul class="nav-items">
-          <li>Companies</li>
+          <li>
+            <RouterLink active-class="active" to="companies">
+              Companies
+            </RouterLink>
+          </li>
           <li>Newsletter</li>
           <li>Learn</li>
           <li>
-            Saved Jobs<span>{{ savedJobs ? `(${savedJobs})` : "" }}</span>
+            <RouterLink active-class="active" to="saved">
+              Saved Jobs<span
+                >{{ savedJobs ? `(${savedJobs})` : "" }}
+              </span></RouterLink
+            >
           </li>
         </ul>
         <button class="btn">Post a Job</button>
@@ -73,7 +78,6 @@ export default {
   margin: 0;
   padding: 0;
   list-style: none;
-  /* width: 80%; */
   justify-content: space-between;
 }
 .nav-items li {
@@ -87,12 +91,15 @@ export default {
   transition: 0.3s;
 }
 
+.active {
+  color: #c6de41;
+}
+
 .hamburger {
   display: none;
 }
 .nav-wrapper {
   height: 4rem;
-  width: 90%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -165,9 +172,14 @@ export default {
     background-color: #153b44;
     transition: all 0.2s ease-out;
     width: 100%;
+    height: 10rem;
+    padding: 2rem 0;
   }
   .nav-items {
     flex-direction: column;
+  }
+  .nav-items li {
+    margin-bottom: 0.5rem;
   }
   .hamburger {
     display: block;
