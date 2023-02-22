@@ -19,10 +19,8 @@ export default {
 </script>
 
 <template>
-  <!-- <div class="saved-wrapper"> -->
   <h1 class="title">My saved jobs</h1>
   <JobList :jobsList="savedJobs" />
-  <!-- </div> -->
 </template>
 
 <style scoped>

@@ -25,7 +25,6 @@ export default {
   },
   methods: {
     handleJobClick(item: Job) {
-      // this.$emit("clicked", item);
       this.jobIdSelected = item.id;
       this.jobSelected = item;
     },

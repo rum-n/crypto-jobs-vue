@@ -12,15 +12,25 @@ export default {
   data() {
     return {
       savedJobs: [],
+      inSavedJobs:
+        this.$router.currentRoute.value.name === "savedJobs" ? true : false,
     };
   },
-  created() {
+  updated() {
     this.savedJobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
   },
   methods: {
     handleSaveJob() {
       this.savedJobs.push(this.details as never);
       localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
+    },
+    handleRemoveJob() {
+      const index = this.savedJobs.findIndex(
+        (item: Job) => item.id === this.details.id
+      );
+      this.savedJobs.splice(index, 1);
+      localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
+      this.$router.go(0);
     },
   },
 };
@@ -43,6 +53,7 @@ export default {
     <div class="buttons">
       <button class="apply-btn">Apply</button>
       <button
+        v-if="!inSavedJobs"
         :class="savedJobs.find((item: Job)=>item.id === details.id) ? 'already-saved' : 'save-btn'"
         @click="handleSaveJob"
       >
@@ -51,6 +62,9 @@ export default {
             ? "Saved"
             : "Save for later"
         }}
+      </button>
+      <button class="remove-btn" v-if="inSavedJobs" @click="handleRemoveJob">
+        Remove Job
       </button>
     </div>
   </div>
@@ -96,7 +110,8 @@ p {
 }
 
 .save-btn,
-.already-saved {
+.already-saved,
+.remove-btn {
   background-color: transparent;
   color: #c6de41;
   font-size: 1rem;
@@ -114,8 +129,13 @@ p {
   cursor: default;
 }
 
+.remove-btn {
+  color: #f84848;
+}
+
 .apply-btn:hover,
-.save-btn:hover {
+.save-btn:hover,
+.remove-btn:hover {
   box-shadow: 2px 2px 1px 1px #2d6e7e;
   transition: 0.3s;
 }
