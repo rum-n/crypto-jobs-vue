@@ -46,7 +46,7 @@ export default {
             ? 'job-selected'
             : 'job-listing'
         "
-        @click="($event) => handleJobClick(item)"
+        @click="handleJobClick(item)"
       >
         <div class="job-listing-header">
           <h3>{{ item.title }}</h3>
@@ -66,7 +66,7 @@ export default {
           <p>{{ item.description }}</p>
           <div class="buttons">
             <button class="apply-btn">Apply</button>
-            <button class="save-btn" @click="($event) => handleSaveJob(item)">
+            <button class="save-btn" @click="handleSaveJob(item)">
               Save for later
             </button>
           </div>

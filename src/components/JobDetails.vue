@@ -11,13 +11,10 @@ export default {
   },
   data() {
     return {
-      savedJobs: [],
+      savedJobs: JSON.parse(localStorage.getItem("savedJobs") || "[]"),
       inSavedJobs:
         this.$router.currentRoute.value.name === "savedJobs" ? true : false,
     };
-  },
-  updated() {
-    this.savedJobs = JSON.parse(localStorage.getItem("savedJobs") || "[]");
   },
   methods: {
     handleSaveJob() {
