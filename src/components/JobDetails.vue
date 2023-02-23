@@ -1,5 +1,6 @@
 <script lang="ts">
 import { Job } from "../types/Job";
+import { mapState, mapMutations } from "vuex";
 
 export default {
   name: "JobDetails",
@@ -16,10 +17,18 @@ export default {
         this.$router.currentRoute.value.name === "savedJobs" ? true : false,
     };
   },
+  computed: {
+    ...mapState(["numberOfSavedJobs"]),
+  },
   methods: {
+    ...mapMutations(["increment", "decrement"]),
     handleSaveJob() {
+      if (this.savedJobs.find((item: Job) => item.id === this.details.id)) {
+        return;
+      }
       this.savedJobs.push(this.details as never);
       localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
+      this.increment();
     },
     handleRemoveJob() {
       const index = this.savedJobs.findIndex(
@@ -27,6 +36,7 @@ export default {
       );
       this.savedJobs.splice(index, 1);
       localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
+      this.decrement();
       this.$router.go(0);
     },
   },

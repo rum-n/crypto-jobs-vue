@@ -1,22 +1,20 @@
 <script lang="ts">
 import { RouterLink } from "vue-router";
+import { mapState } from "vuex";
 
 export default {
   name: "Nav",
   data() {
     return {
       showMobileMenu: false,
-      savedJobs: JSON.parse(localStorage.getItem("savedJobs") || "[]").length,
     };
+  },
+  computed: {
+    ...mapState(["numberOfSavedJobs"]),
   },
   methods: {
     showMenu() {
       this.showMobileMenu = !this.showMobileMenu;
-    },
-  },
-  watch: {
-    savedJobs(oldNumber, newNumber) {
-      this.savedJobs = newNumber;
     },
   },
 };
@@ -52,8 +50,8 @@ export default {
           <li>Learn</li>
           <li>
             <RouterLink active-class="active" to="saved">
-              Saved Jobs<span
-                >{{ savedJobs ? `(${savedJobs})` : "" }}
+              My Jobs<span
+                >{{ numberOfSavedJobs > 0 ? `(${numberOfSavedJobs})` : "" }}
               </span></RouterLink
             >
           </li>
