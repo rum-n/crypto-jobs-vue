@@ -15,6 +15,7 @@ export default {
       savedJobs: JSON.parse(localStorage.getItem("savedJobs") || "[]"),
       inSavedJobs:
         this.$router.currentRoute.value.name === "savedJobs" ? true : false,
+      today: new Date(),
     };
   },
   computed: {
@@ -39,6 +40,19 @@ export default {
       this.decrement();
       this.$router.go(0);
     },
+    calculatePublishTime(publishedAt) {
+      const pubDate = new Date(publishedAt);
+      const today = new Date();
+      const timeDiff = today.getTime() - pubDate.getTime();
+      const dayDiff = timeDiff / (1000 * 3600 * 24);
+      if (dayDiff < 1) {
+        return "Today";
+      } else if (dayDiff < 2) {
+        return "Yesterday";
+      } else {
+        return `${Math.floor(dayDiff)} days ago`;
+      }
+    },
   },
 };
 </script>
@@ -46,19 +60,22 @@ export default {
 <template>
   <div class="details-wrapper">
     <div class="header">
-      <h2>{{ details.title }}</h2>
-      <p>{{ details.datePosted }}</p>
+      <h2>{{ details.attributes.title }}</h2>
+      <p>{{ calculatePublishTime(details.attributes.publishedAt) }}</p>
     </div>
-    <h3>{{ details.company }}</h3>
+    <h3>{{ details.attributes.company }}</h3>
     <div class="details">
-      <p>Salary: {{ details.salary ? details.salary : "" }}</p>
-      <p>Location: {{ details.location }}</p>
-      <p>Type: {{ details.type }}</p>
+      <p>
+        Salary: {{ details.attributes.salary ? details.attributes.salary : "" }}
+      </p>
+      <p>Location: {{ details.attributes.location }}</p>
+      <p>Type: {{ details.attributes.type }}</p>
     </div>
-
-    <p>{{ details.description }}</p>
+    <p>{{ details.attributes.description }}</p>
     <div class="buttons">
-      <button class="apply-btn">Apply</button>
+      <a :href="details.attributes.url" target="_blank"
+        ><button class="apply-btn">Apply</button></a
+      >
       <button
         v-if="!inSavedJobs"
         :class="savedJobs.find((item: Job)=>item.id === details.id) ? 'already-saved' : 'save-btn'"
@@ -85,7 +102,6 @@ export default {
   border: 1px solid #2d6e7e;
   border-radius: 0.5rem;
   margin-top: 2rem;
-  max-height: 100vh;
 }
 
 .details-wrapper h2,

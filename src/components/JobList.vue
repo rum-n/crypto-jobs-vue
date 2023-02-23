@@ -32,6 +32,19 @@ export default {
       this.savedJobs.push(item as never);
       localStorage.setItem("savedJobs", JSON.stringify(this.savedJobs));
     },
+    calculatePublishTime(publishedAt) {
+      const pubDate = new Date(publishedAt);
+      const today = new Date();
+      const timeDiff = today.getTime() - pubDate.getTime();
+      const dayDiff = timeDiff / (1000 * 3600 * 24);
+      if (dayDiff < 1) {
+        return "Today";
+      } else if (dayDiff < 2) {
+        return "Yesterday";
+      } else {
+        return `${Math.floor(dayDiff)} days ago`;
+      }
+    },
   },
 };
 </script>
@@ -49,23 +62,23 @@ export default {
         @click="handleJobClick(item)"
       >
         <div class="job-listing-header">
-          <h3>{{ item.title }}</h3>
-          <p>{{ item.datePosted }}</p>
+          <h3>{{ item.attributes.title }}</h3>
+          <p>{{ calculatePublishTime(item.attributes.publishedAt) }}</p>
         </div>
-        <p>{{ item.company }}</p>
+        <p>{{ item.attributes.company }}</p>
         <div class="job-details">
-          <p>Location: {{ item.location }}</p>
-          <p>Type: {{ item.type }}</p>
-          <p>Salary: {{ item.salary }}</p>
+          <p>Location: {{ item.attributes.location }}</p>
+          <p>Type: {{ item.attributes.type }}</p>
+          <p>Salary: {{ item.attributes.salary }}</p>
         </div>
         <div class="tags">
-          <span class="tag" v-for="tag of item.tags">{{ tag }}</span>
+          <span class="tag" v-for="tag of item.attributes.tags">{{ tag }}</span>
         </div>
         <!-- Mobile job description -->
         <div v-if="jobIdSelected === item.id" class="mobile-job-details">
-          <p>{{ item.description }}</p>
+          <p>{{ item.attributes.description }}</p>
           <div class="buttons">
-            <button class="apply-btn">Apply</button>
+            <button class="apply-btn" href="item.attributes.url">Apply</button>
             <button class="save-btn" @click="handleSaveJob(item)">
               Save for later
             </button>
