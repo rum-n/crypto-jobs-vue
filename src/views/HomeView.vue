@@ -17,7 +17,7 @@ export default {
   },
   methods: {},
   mounted() {
-    axios.get("http://localhost:1337/api/jobs").then((res) => {
+    axios.get(`${process.env.API}/api/jobs`).then((res) => {
       this.jobsList = res.data.data;
     });
   },
