@@ -17,7 +17,7 @@ export default {
   },
   methods: {},
   mounted() {
-    axios.get(`${process.env.API}/api/jobs`).then((res) => {
+    axios.get(`https//web3gigs.onrender.com/api/jobs`).then((res) => {
       this.jobsList = res.data.data;
     });
   },
