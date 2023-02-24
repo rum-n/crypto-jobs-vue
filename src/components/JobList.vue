@@ -62,23 +62,23 @@ export default {
         @click="handleJobClick(item)"
       >
         <div class="job-listing-header">
-          <h3>{{ item.attributes.title }}</h3>
-          <p>{{ calculatePublishTime(item.attributes.publishedAt) }}</p>
+          <h3>{{ item.title }}</h3>
+          <p>{{ calculatePublishTime(item.publishedAt) }}</p>
         </div>
-        <p>{{ item.attributes.company }}</p>
+        <p>{{ item.company }}</p>
         <div class="job-details">
-          <p>Location: {{ item.attributes.location }}</p>
-          <p>Type: {{ item.attributes.type }}</p>
-          <p>Salary: {{ item.attributes.salary }}</p>
+          <p>Location: {{ item.location }}</p>
+          <p>Type: {{ item.type }}</p>
+          <p>Salary: {{ item.salary }}</p>
         </div>
         <div class="tags">
-          <span class="tag" v-for="tag of item.attributes.tags">{{ tag }}</span>
+          <span class="tag" v-for="tag of item.tags">{{ tag }}</span>
         </div>
         <!-- Mobile job description -->
         <div v-if="jobIdSelected === item.id" class="mobile-job-details">
-          <p>{{ item.attributes.description }}</p>
+          <p>{{ item.description }}</p>
           <div class="buttons">
-            <button class="apply-btn" href="item.attributes.url">Apply</button>
+            <button class="apply-btn" href="item.url">Apply</button>
             <button class="save-btn" @click="handleSaveJob(item)">
               Save for later
             </button>

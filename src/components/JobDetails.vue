@@ -60,20 +60,18 @@ export default {
 <template>
   <div class="details-wrapper">
     <div class="header">
-      <h2>{{ details.attributes.title }}</h2>
-      <p>{{ calculatePublishTime(details.attributes.publishedAt) }}</p>
+      <h2>{{ details.title }}</h2>
+      <p>{{ calculatePublishTime(details.publishedAt) }}</p>
     </div>
-    <h3>{{ details.attributes.company }}</h3>
+    <h3>{{ details.company }}</h3>
     <div class="details">
-      <p>
-        Salary: {{ details.attributes.salary ? details.attributes.salary : "" }}
-      </p>
-      <p>Location: {{ details.attributes.location }}</p>
-      <p>Type: {{ details.attributes.type }}</p>
+      <p>Salary: {{ details.salary ? details.salary : "" }}</p>
+      <p>Location: {{ details.location }}</p>
+      <p>Type: {{ details.type }}</p>
     </div>
-    <p>{{ details.attributes.description }}</p>
+    <p>{{ details.description }}</p>
     <div class="buttons">
-      <a :href="details.attributes.url" target="_blank"
+      <a :href="details.url" target="_blank"
         ><button class="apply-btn">Apply</button></a
       >
       <button
