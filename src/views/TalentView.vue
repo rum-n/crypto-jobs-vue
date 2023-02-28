@@ -1,16 +1,22 @@
 <script lang="ts">
+import JobList from "../components/JobList.vue";
+import { Job } from "../types/Job";
+
 export default {
   data() {
     return {};
   },
-  components: {},
+  components: {
+    JobList,
+  },
+  created() {},
   methods: {},
 };
 </script>
 
 <template>
-  <div class="companies-wrapper">
-    <h1>Companies in Web 3 looking for talent</h1>
+  <div class="talent-wrapper">
+    <h1>Hire some of the best talent in Web 3</h1>
     <p class="title">Coming soon...</p>
   </div>
 </template>
@@ -20,9 +26,9 @@ export default {
   text-align: center;
   font-size: 1.5rem;
 }
-.companies-wrapper {
-  text-align: center;
+.talent-wrapper {
   margin: 2rem auto;
   width: 90%;
+  text-align: center;
 }
 </style>

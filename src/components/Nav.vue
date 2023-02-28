@@ -46,7 +46,9 @@ export default {
               Companies
             </RouterLink>
           </li>
-          <li>Newsletter</li>
+          <li>
+            <RouterLink active-class="active" to="talent"> Talent </RouterLink>
+          </li>
           <li>Learn</li>
           <li>
             <RouterLink active-class="active" to="saved">
